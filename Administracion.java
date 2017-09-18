@@ -238,7 +238,7 @@ public class Administracion{
         Container cp = frame.getContentPane();
         GridBagConstraints bag = new GridBagConstraints();
         //
-        JPanel pnl01 = new JPanel(new GridLayout(10,1));
+        JPanel pnl01 = new JPanel();
         //
         for (int i = 1; i <= 10 ; i ++ ){
             JLabel j = new JLabel(String.valueOf(i)+"jajaajjajaajajj",JLabel.CENTER);
@@ -247,11 +247,11 @@ public class Administracion{
             cuenta = i;
         }
         //
-        pnl01.setFont(new Font("Letter Gothic Std", Font.PLAIN, 13));
+        pnl01.setLayout(new GridLayout(cuenta,1));
         //
         bag.gridx = 0;
         bag.gridy = 0;
-        bag.gridheight = 10;
+        bag.gridheight = cuenta;
         bag.gridwidth = 1;
         bag.weightx = 1;
         bag.fill = GridBagConstraints.BOTH;

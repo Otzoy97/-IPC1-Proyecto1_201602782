@@ -108,7 +108,7 @@ public class Modulo extends JFrame{
         menu5.add(menuitem6);
         //
         setJMenuBar(menubar);
-        setSize(500, 600);
+        setSize(350, 350);
         setTitle("Clientes - Sistema Integrado Bancario Estudiantil");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
