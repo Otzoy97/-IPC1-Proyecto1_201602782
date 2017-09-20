@@ -7,7 +7,10 @@ import java.util.Date;
 import java.text.*;
 
 public class Clientes extends JFrame{
-    void Retiros (JFrame frame){
+    private int indice;
+
+    void Retiros (JFrame frame, Usuario[][] transacciones,int indice, Usuario[] billetes){
+        this.indice = indice;
         int cuenta = 0;
         frame.setLayout(new GridBagLayout());
         Container cp = frame.getContentPane();
@@ -57,7 +60,7 @@ public class Clientes extends JFrame{
         cp.validate();
     }
     
-    void Transferencias (JFrame frame){
+    void Transferencias (JFrame frame, Usuario[][] transacciones, Usuario[][] listados){
         String[] usuarios = new String[5];
         //
         frame.setLayout(new GridBagLayout());
@@ -236,7 +239,7 @@ public class Clientes extends JFrame{
         cp.validate();
     }
     
-    void SaldoActual (JFrame frame){
+    void SaldoActual (JFrame frame, Usuario[] usuarios, Usuario[][] transacciones){
         frame.setLayout(new GridBagLayout());
         Container cp = frame.getContentPane();
         GridBagConstraints bag = new GridBagConstraints();
@@ -304,17 +307,17 @@ public class Clientes extends JFrame{
         cp.validate();
     }
     
-    void Reimpresion (JFrame frame){
+    void Reimpresion (JFrame frame, Usuario[][] transacciones){
         Container cp = frame.getContentPane();
         cp.validate();
     }
     
-    void GraficaPie (JFrame frame){
+    void GraficaPie (JFrame frame, Usuario[][] transacciones){
         Container cp = frame.getContentPane();
         cp.validate();
     }
     
-    void GraficaBarras (JFrame frame){
+    void GraficaBarras (JFrame frame, Usuario[][] transacciones){
         Container cp = frame.getContentPane();
         cp.validate();
     }

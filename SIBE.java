@@ -1,9 +1,18 @@
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
-//import javax.swing.ImageIcon;
+import java.util.Scanner;
 
 public class SIBE extends JFrame{
+    private int indice;
+    Modulo login = new Modulo();
+    Administracion admon = new Administracion();
+    Clientes clts = new Clientes();
+    private static Usuario[] usuarios = new Usuario[25]; //
+    private static Usuario[] billetes = new Usuario[10];//
+    private static Usuario[][] listado = new Usuario[usuarios.length][usuarios.length];//
+    private static Usuario[][] transacciones = new Usuario[25][25];//
+    
     public static void main(String[] args) {
         SIBE inicio = new SIBE();
         inicio.show();
@@ -51,16 +60,28 @@ public class SIBE extends JFrame{
             String usuario = txt01.getText();
             char passArray[] = txt02.getPassword(); 
             String pass = new String(passArray);
-            Modulo login = new Modulo();
             
             if (usuario.equals("ipc1Admin") && pass.equals("aux1")){
                 JOptionPane.showMessageDialog(null, "Bienvenido - Administrador");
                 setVisible(false);
                 login.Administracion();
             } else {
-                JOptionPane.showMessageDialog(null, "Bienvenido - Cliente");
-                setVisible(false);
-                login.Clientes();
+                int c = 0;
+                while (c < 25){               
+                    if (usuarios[c]!=null){
+                        if(usuarios[c].getUsuario().equals(usuario) && usuarios[c].getContrasena().equals(pass)){
+                            JOptionPane.showMessageDialog(null, "Bienvenido - Cliente");
+                            setVisible(false);
+                            login.Clientes();
+                            indice = c;
+                            break;
+                        } 
+                        c++;
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos","SIBE",JOptionPane.WARNING_MESSAGE);
+                        break;
+                    }
+                }
             }
         });
         //
@@ -72,13 +93,12 @@ public class SIBE extends JFrame{
         getContentPane().add(pnl02);
     }
     
-public class Modulo extends JFrame{
+    public class Modulo extends JFrame{
     private JMenuBar menubar;
-    private JMenu menu1, menu2, menu3, menu4, menu5;
+    private JMenu menu1, menu2, menu5;
     private JMenuItem menuitem1, menuitem2, menuitem3, menuitem4, menuitem5, menuitem6;
     
     public void Clientes(){
-        Clientes clts = new Clientes();
         menubar = new JMenuBar();
         //
         menu1 = new JMenu("Transacciones");
@@ -126,37 +146,37 @@ public class Modulo extends JFrame{
         menuitem1.addActionListener((ActionEvent e) ->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            clts.Retiros(this);
+            clts.Retiros(this,transacciones, indice, billetes);
         });
         menuitem2.addActionListener((ActionEvent e) ->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            clts.Transferencias(this);
+            clts.Transferencias(this, transacciones, listado);
         });
         menuitem3.addActionListener((ActionEvent e) ->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            clts.SaldoActual(this);
+            clts.SaldoActual(this, usuarios, transacciones);
         });
         menuitem4.addActionListener((ActionEvent e) ->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            clts.Reimpresion(this);
+            clts.Reimpresion(this, transacciones);
         });
         menuitem5.addActionListener((ActionEvent e) ->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            clts.GraficaPie(this);
+            clts.GraficaPie(this, transacciones);
         });
         menuitem6.addActionListener((ActionEvent e) ->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            clts.GraficaBarras(this);
+            clts.GraficaBarras(this, transacciones);
         });
     }
   
     public void  Administracion(){
-        Administracion admon = new Administracion();
+        
         menubar = new JMenuBar();
         //
         menu1 = new JMenu("Estudiantes");
@@ -178,7 +198,7 @@ public class Modulo extends JFrame{
         setJMenuBar(menubar);
         setSize(400, 350);
         setTitle("Administración - Sistema Integrado Bancario Estudiantil");
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
         addWindowListener( new WindowAdapter(){
@@ -193,22 +213,22 @@ public class Modulo extends JFrame{
         menuitem1.addActionListener((ActionEvent e)->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            admon.Nuevo(this);
+            admon.Nuevo(this, usuarios);
         });
         menuitem2.addActionListener((ActionEvent e)->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            admon.Transferencia(this);
+            admon.Transferencia(this, usuarios, listado);
         });
         menuitem3.addActionListener((ActionEvent e)->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            admon.Llenar(this);
+            admon.Llenar(this, billetes);
         });
         menuitem4.addActionListener((ActionEvent e)->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            admon.Verificar(this);
+            admon.Verificar(this, billetes);
         });
     }   
 }
