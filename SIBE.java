@@ -8,10 +8,10 @@ public class SIBE extends JFrame{
     Modulo login = new Modulo();
     Administracion admon = new Administracion();
     Clientes clts = new Clientes();
-    private static Usuario[] usuarios = new Usuario[25]; //
-    private static Usuario[] billetes = new Usuario[10];//
-    private static Usuario[][] listado = new Usuario[usuarios.length][usuarios.length];//
-    private static Usuario[][] transacciones = new Usuario[25][25];//
+    private static Usuario[] usuarios = new Usuario[30]; //
+    private static Usuario[] billetes = new Usuario[15];//
+    private static Usuario[][] listado = new Usuario[30][30];//
+    private static Usuario[][] transacciones = new Usuario[30][30];//
     
     public static void main(String[] args) {
         SIBE inicio = new SIBE();
@@ -26,7 +26,9 @@ public class SIBE extends JFrame{
         setLayout(null);
         setLocationRelativeTo(null);
         this.getContentPane().setBackground(new Color(157,195,230));
-        //      
+        //     
+        setIconImage(new ImageIcon(getClass().getResource("Imagenes/favicon.png")).getImage());
+        //
         JPanel pnl02 = new JPanel();    
         JLabel lbl01 = new JLabel("Usuario", JLabel.CENTER);
         JLabel lbl02 = new JLabel("Contraseña", JLabel.CENTER);
@@ -70,9 +72,13 @@ public class SIBE extends JFrame{
                 while (c < 25){               
                     if (usuarios[c]!=null){
                         if(usuarios[c].getUsuario().equals(usuario) && usuarios[c].getContrasena().equals(pass)){
-                            JOptionPane.showMessageDialog(null, "Bienvenido - Cliente");
+                            JOptionPane.showMessageDialog(null, "Bienvenido - " + usuarios[c].getNombre());
                             setVisible(false);
-                            login.Clientes();
+                            if (usuarios[c].getEmpresa() == "Pro-Pisto"){
+                                login.Clientes(new Color(139,140,143));
+                            } else {
+                                login.Clientes(new Color(176,213,116));
+                            }
                             indice = c;
                             break;
                         } 
@@ -98,7 +104,8 @@ public class SIBE extends JFrame{
     private JMenu menu1, menu2, menu5;
     private JMenuItem menuitem1, menuitem2, menuitem3, menuitem4, menuitem5, menuitem6;
     
-    public void Clientes(){
+    public void Clientes(Color color){
+        setIconImage(new ImageIcon(getClass().getResource("Imagenes/favicon.png")).getImage());
         menubar = new JMenuBar();
         //
         menu1 = new JMenu("Transacciones");
@@ -127,8 +134,10 @@ public class SIBE extends JFrame{
         menu5.add(menuitem5);
         menu5.add(menuitem6);
         //
+        
+        //
         setJMenuBar(menubar);
-        setSize(350, 350);
+        setSize(400, 400);
         setTitle("Clientes - Sistema Integrado Bancario Estudiantil");
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -146,37 +155,44 @@ public class SIBE extends JFrame{
         menuitem1.addActionListener((ActionEvent e) ->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            clts.Retiros(this,transacciones, indice, billetes);
+            getContentPane().setBackground(color);
+            clts.Retiros(this,usuarios,transacciones, indice, billetes);
         });
         menuitem2.addActionListener((ActionEvent e) ->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            clts.Transferencias(this, transacciones, listado);
+            getContentPane().setBackground(color);
+            clts.Transferencias(this,usuarios,transacciones, listado,billetes, indice);
         });
         menuitem3.addActionListener((ActionEvent e) ->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            clts.SaldoActual(this, usuarios, transacciones);
+            getContentPane().setBackground(color);
+            clts.SaldoActual(this, usuarios, transacciones, indice);
         });
         menuitem4.addActionListener((ActionEvent e) ->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            clts.Reimpresion(this, transacciones);
+            getContentPane().setBackground(color);
+            clts.Reimpresion(this, usuarios, transacciones,indice);
         });
         menuitem5.addActionListener((ActionEvent e) ->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            clts.GraficaPie(this, transacciones);
+            getContentPane().setBackground(color);
+            clts.GraficaPie(this,usuarios ,transacciones,indice);
         });
         menuitem6.addActionListener((ActionEvent e) ->{
             getContentPane().removeAll();
             getContentPane().repaint();
-            clts.GraficaBarras(this, transacciones);
+            getContentPane().setBackground(color);
+            clts.GraficaBarras(this,usuarios ,transacciones,indice);
         });
+        menuitem3.doClick();
     }
   
     public void  Administracion(){
-        
+        setIconImage(new ImageIcon(getClass().getResource("Imagenes/favicon.png")).getImage());
         menubar = new JMenuBar();
         //
         menu1 = new JMenu("Estudiantes");
@@ -198,7 +214,7 @@ public class SIBE extends JFrame{
         setJMenuBar(menubar);
         setSize(400, 350);
         setTitle("Administración - Sistema Integrado Bancario Estudiantil");
-        setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         setLocationRelativeTo(null);
         addWindowListener( new WindowAdapter(){
@@ -230,6 +246,7 @@ public class SIBE extends JFrame{
             getContentPane().repaint();
             admon.Verificar(this, billetes);
         });
-    }   
+        menuitem1.doClick();
+    } 
 }
 }

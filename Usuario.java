@@ -22,24 +22,19 @@ public class Usuario {
     private int actual;
     //
 
-    public Usuario(String nombre, String contrasena, String usuario, int inicial, int maximo, String empresa) {
+    public Usuario(String nombre, String contrasena, String usuario, int inicial, int maximo, String empresa, int actual) {
         this.nombre = nombre;
         this.contrasena = contrasena;
         this.usuario = usuario;
         this.inicial = inicial;
         this.maximo = maximo;
         this.empresa = empresa;
-    }
-    
-    public Usuario(int actual){
-        this.actual =  actual;
-    }
-    /*
-    public Usuario(String usuario, int actual){
-        this.usuario = usuario;
         this.actual = actual;
     }
-    */
+    
+    public Usuario(String usuario){
+        this.usuario =  usuario;
+    }
     public Usuario(String emisor, String receptor, int monto, Date fecha, String transaccion) {
         this.emisor = emisor;
         this.receptor = receptor;

@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 public class Administracion{
     
     public void Nuevo(JFrame frame, Usuario[] usuarios){
+        
         frame.setLayout(new GridBagLayout());
         Container cp = frame.getContentPane();
         GridBagConstraints bag = new GridBagConstraints();
@@ -152,7 +153,7 @@ public class Administracion{
                                         int max = Integer.parseInt(txt04.getText());
                                         if (min < max){
                                             usuarios[c] = new Usuario(txt01.getText(),pass_1,
-                                            txt02.getText(),min,max,empresa1);
+                                            txt02.getText(),min,max,empresa1,min);
                                             JOptionPane.showMessageDialog(null, "Registro completado exitosamente","Administración - SIBE",JOptionPane.INFORMATION_MESSAGE);    
                                             txt01.setText("");
                                             pass01.setText("");
@@ -192,12 +193,15 @@ public class Administracion{
         });
         //
         cp.validate();
+        //frame.setBackground(imagenFondo);
     }
     public void Transferencia(JFrame frame, Usuario[] usuarios, Usuario[][] listado){
         frame.setLayout(new GridBagLayout());
         Container cp = frame.getContentPane();
         GridBagConstraints bag = new GridBagConstraints();
         //
+        
+        
         JPanel pnl01 = new JPanel(new GridLayout(1,2));
         bag.gridx = 0;
         bag.gridy = 0;
@@ -255,6 +259,7 @@ public class Administracion{
             String receptor = txt02.getText();
             boolean emisor_E = false;
             boolean receptor_E = false;
+            boolean exists = false;
             int indice_e = 0;
             int indice_r = 0;
             if (emisor.length() > 0 && receptor.length() > 0){
@@ -289,17 +294,44 @@ public class Administracion{
                         JOptionPane.showMessageDialog(null, "El «Usuario emisor» no puede ser el «Usuario receptor»","Administración - SIBE",JOptionPane.WARNING_MESSAGE);    
                     } else {
                         try {
-                            listado[indice_e][indice_r].getActual();
-                            JOptionPane.showMessageDialog(null, "La asignación ya existe","Administración - SIBE",JOptionPane.INFORMATION_MESSAGE);    
-                        } catch (Exception e){
-                            listado[indice_e][indice_r] = new Usuario(0);
-                            JOptionPane.showMessageDialog(null, "Asignación completada exitosamente","Administración - SIBE",JOptionPane.INFORMATION_MESSAGE);    
-                            txt01.setText("");
-                            txt02.setText("");
+                            for (int m = 0; m < listado[m].length; m++){
+                                if (listado[indice_e][m]!=null){
+                                    if (listado[indice_e][m].getUsuario().equals(receptor)){
+                                        exists = true;
+                                        JOptionPane.showMessageDialog(null, "La asignación ya existe","Administración - SIBE",JOptionPane.INFORMATION_MESSAGE);    
+                                        break;
+                                    }
+                                } else {
+                                    break;
+                                }
+                            }
+                        } catch (Exception z) {
+                            if (exists == false){
+                                for (int l = 0 ; l < listado[l].length; l++){
+                                    if (listado[indice_e][l] == null){
+                                        listado[indice_e][l] = new Usuario(usuarios[indice_r].getUsuario());    
+                                        JOptionPane.showMessageDialog(null, "Asignación completada exitosamente","Administración - SIBE",JOptionPane.INFORMATION_MESSAGE);
+                                        txt01.setText("");
+                                        txt02.setText("");
+                                        break;
+                                    }
+                                }
+                            }
+                        } finally {
+                            if (exists == false){
+                                for (int l = 0 ; l < listado[l].length; l++){
+                                    if (listado[indice_e][l] == null){
+                                        listado[indice_e][l] = new Usuario(usuarios[indice_r].getUsuario());    
+                                        JOptionPane.showMessageDialog(null, "Asignación completada exitosamente","Administración - SIBE",JOptionPane.INFORMATION_MESSAGE);
+                                        txt01.setText("");
+                                        txt02.setText("");
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-                    
             } else {
                 JOptionPane.showMessageDialog(null, "Debe llenar todos los campos","Administración - SIBE",JOptionPane.INFORMATION_MESSAGE);    
             }
@@ -408,7 +440,7 @@ public class Administracion{
                 }
             }
             if (bool02 == true){
-                if (mont <= 0){
+                if (mont > 0){
                     for (int i = 0 ; i < billetes.length ; i++){
                         if (billetes[i] == null){
                             billetes[i] = new Usuario(deno,mont);
@@ -495,4 +527,6 @@ public class Administracion{
             }
         }
     }       
+    //@Override
+    
 }
